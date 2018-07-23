@@ -1,9 +1,13 @@
+package gameplay;
+
 import base.GameObjectManager;
+import base.LoadImage;
 import base.Vector2D;
 import game.backgound.Background;
 import game.island.FloatingIsland;
 import game.enemy.FlyingEnemy;
 import game.player.Player;
+import game.player.Sword;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,9 +20,9 @@ public class GameCanvas extends JPanel {
     BufferedImage backBuffered;
     Graphics graphics;
 
-    Background background = new Background();
+    public static Background background = new Background();
     public static Player player = new Player();
-    FlyingEnemy flyingEnemy = new FlyingEnemy();
+    public FlyingEnemy flyingEnemy = new FlyingEnemy();
 
     FloatingIsland floatingIsland = new FloatingIsland();
 
@@ -39,10 +43,8 @@ public class GameCanvas extends JPanel {
     }
 
     private void setupCharacter() {
-        this.background = new Background(
-                this.loadImage("resources/background.jpg")
-        );
-        this.player = new Player(new Vector2D(300,400), this.loadImage("resources/player.png"));
+        this.background = new Background();
+        this.player = new Player(new Vector2D(300, 400), LoadImage.loadImage("resources/player.png"));
 //        this.floatingIsland = new game.island.FloatingIsland(new base.Vector2D(200,600),
 //                this.loadImage("resources/Island1.png"),
 //                700,
@@ -70,7 +72,7 @@ public class GameCanvas extends JPanel {
         g.drawImage(this.backBuffered, 0, 0, null);
     }
 
-    public void runAll(){
+    public void runAll() {
 //        if(physic.OnIsland.checkOnIsland(player,floatingIsland)){
 //            //player.onIsland = true;
 //            player.isFalling = false;
@@ -90,13 +92,5 @@ public class GameCanvas extends JPanel {
         this.player.render(graphics);
         this.flyingEnemy.render(graphics);
         this.repaint();
-    }
-
-    private BufferedImage loadImage(String path) {
-        try {
-            return ImageIO.read(new File(path));
-        } catch (IOException e) {
-            return null;
-        }
     }
 }

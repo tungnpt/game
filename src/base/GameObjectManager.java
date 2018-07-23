@@ -14,7 +14,7 @@ public class GameObjectManager {
 
     public static GameObjectManager instance = new GameObjectManager();
 
-    public ArrayList<GameObject> list = new ArrayList<>();
+    public ArrayList<FloatingIsland> list = new ArrayList<>();
     private ArrayList<GameObject> tempList = new ArrayList<>();
 
     public int biggestPositionX = 0;
@@ -46,7 +46,7 @@ public class GameObjectManager {
         list.add(floatingIsland);
     }
 
-    public void add(GameObject gameObject) {
+    public void add(FloatingIsland gameObject) {
         this.list.add(gameObject);
     }
 

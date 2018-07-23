@@ -1,6 +1,7 @@
 package game.enemy;
 
 import base.GameObject;
+import base.LoadImage;
 import base.Vector2D;
 import input.KeyboardInput;
 import physic.BoxCollider;
@@ -12,10 +13,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class Enemy extends GameObject {
-    public BufferedImage image = this.loadImage("resources/enemy.png");
+    public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
     public boolean onIsland = false;
     public boolean isFalling = true;
     public BoxCollider boxCollider;
+    public boolean isAlive =true;
 
     float gravity = 0.5f;
     //float friction = 0.99f;
@@ -42,6 +44,7 @@ public class Enemy extends GameObject {
             this.position.x -= this.velocity.x;
         }
 
+
         if (isFalling == false) {
             this.velocity.y = -this.velocity.y;
             isFalling = true;
@@ -53,14 +56,8 @@ public class Enemy extends GameObject {
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
-    }
-
-    private BufferedImage loadImage(String path) {
-        try {
-            return ImageIO.read(new File(path));
-        } catch (IOException e) {
-            return null;
+        if (this.isAlive) {
+            graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
         }
     }
 }

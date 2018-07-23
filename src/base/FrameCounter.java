@@ -2,7 +2,7 @@ package base;
 
 public class FrameCounter {
 
-    private int count;
+    public int count;
     private int timeInterval;
 
     public FrameCounter(int timeInterval) {

@@ -2,6 +2,7 @@ package game.island;
 
 import base.GameObject;
 import base.GameObjectManager;
+import base.LoadImage;
 import base.Vector2D;
 import game.enemy.Enemy;
 import input.KeyboardInput;
@@ -43,9 +44,6 @@ public class FloatingIsland extends GameObject {
 
     public void run() {
         this.enemies.forEach(enemy -> {
-//            if(physic.OnIsland.checkOnIsland(enemy,this)){
-//                enemy.isFalling = false;
-//            }
             if(enemy.boxCollider.checkCollision(this.boxCollider)){
                 enemy.isFalling = false;
             }
@@ -88,21 +86,13 @@ public class FloatingIsland extends GameObject {
             int num = random.nextInt(200) + 200;
             this.position.x = GameObjectManager.instance.biggestPositionX + num;
             this.position.y = random.nextInt(200) + 500;
-            this.width = random.nextInt(500) +  700;
+            this.width = random.nextInt(100) +  800;
             this.height = random.nextInt(100)+300;
             String temp = Integer.toString(random.nextInt(4)+1);
             String path = "resources/Island" + temp + ".png";
-            this.image = loadImage(path);
+            this.image = LoadImage.loadImage(path);
             this.enemies.clear();
             this.setupEnemies();
-        }
-    }
-
-    private BufferedImage loadImage(String path) {
-        try {
-            return ImageIO.read(new File(path));
-        } catch (IOException e) {
-            return null;
         }
     }
 

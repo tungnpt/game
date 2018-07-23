@@ -1,3 +1,5 @@
+package gameplay;
+
 import input.KeyboardInput;
 
 import javax.swing.*;

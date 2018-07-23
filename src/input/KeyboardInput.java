@@ -7,12 +7,9 @@ public class KeyboardInput implements KeyListener {
 
     public static KeyboardInput instance = new KeyboardInput();
 
-    public boolean isLeft = false;
-    public boolean isRight = false;
-    public boolean isUp = false;
-    public boolean isDown = false;
-
     public boolean isSpace = false;
+    public boolean isNum1 = false;
+    public boolean isNum2 = false;
 
     private KeyboardInput() {
 
@@ -25,39 +22,21 @@ public class KeyboardInput implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-//        if (e.getKeyCode() == KeyEvent.VK_UP) {
-//            this.isUp = true;
-//        }
-//        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//            this.isLeft = true;
-//        }
-//        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//            this.isRight = true;
-//        }
-//
-//        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//            this.isDown = true;
-//        }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             this.isSpace = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_NUMPAD1 || e.getKeyCode() == KeyEvent.VK_1) {
+            this.isNum1 = true;
+            this.isNum2 = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_NUMPAD2 || e.getKeyCode() == KeyEvent.VK_2) {
+            this.isNum2 = true;
+            this.isNum1 = false;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-//        if (e.getKeyCode() == KeyEvent.VK_UP) {
-//            this.isUp = false;
-//        }
-//        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//            this.isLeft = false;
-//        }
-//        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//            this.isRight = false;
-//        }
-//
-//        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//            this.isDown = false;
-//        }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             this.isSpace = false;
         }

@@ -1,9 +1,6 @@
 package game.enemy;
 
-import base.FrameCounter;
-import base.GameObject;
-import base.GameObjectManager;
-import base.Vector2D;
+import base.*;
 import game.island.FloatingIsland;
 import physic.BoxCollider;
 
@@ -17,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class FlyingEnemy extends GameObject {
-    public BufferedImage image = this.loadImage("resources/enemy.png");
+    public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
     public BoxCollider boxCollider;
     public List<BulletFlyingEnemy>bulletFlyingEnemies = new ArrayList<>();
 
@@ -67,13 +64,5 @@ public class FlyingEnemy extends GameObject {
     public void render(Graphics graphics) {
         graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
         this.bulletFlyingEnemies.forEach(bulletFlyingEnemy -> bulletFlyingEnemy.render(graphics));
-    }
-
-    private BufferedImage loadImage(String path) {
-        try {
-            return ImageIO.read(new File(path));
-        } catch (IOException e) {
-            return null;
-        }
     }
 }
