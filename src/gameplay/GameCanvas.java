@@ -7,7 +7,10 @@ import game.backgound.Background;
 import game.island.FloatingIsland;
 import game.enemy.FlyingEnemy;
 import game.player.Player;
+import game.player.SpecialSkill;
 import game.player.Sword;
+import scene.GamePlayScene;
+import scene.SceneManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,9 +25,7 @@ public class GameCanvas extends JPanel {
 
     public static Background background = new Background();
     public static Player player = new Player();
-    public FlyingEnemy flyingEnemy = new FlyingEnemy();
-
-    FloatingIsland floatingIsland = new FloatingIsland();
+    public static FlyingEnemy flyingEnemy = new FlyingEnemy();
 
 
     public GameCanvas() {
@@ -32,39 +33,14 @@ public class GameCanvas extends JPanel {
 
         this.setupBackBuffered();
 
-        this.setupCharacter();
-
         this.setVisible(true);
+
+        SceneManager.instance.changeScene(new GamePlayScene());
     }
 
     private void setupBackBuffered() {
-        this.backBuffered = new BufferedImage(1920, 1200, BufferedImage.TYPE_4BYTE_ABGR);
+        this.backBuffered = new BufferedImage(1920, 1200, BufferedImage.TYPE_3BYTE_BGR);
         this.graphics = this.backBuffered.getGraphics();
-    }
-
-    private void setupCharacter() {
-        this.background = new Background();
-        this.player = new Player(new Vector2D(300, 400), LoadImage.loadImage("resources/player.png"));
-//        this.floatingIsland = new game.island.FloatingIsland(new base.Vector2D(200,600),
-//                this.loadImage("resources/Island1.png"),
-//                700,
-//                400);
-//        base.GameObjectManager.instance.add(floatingIsland);
-//        this.floatingIsland = new game.island.FloatingIsland(new base.Vector2D(1100,600),
-//                this.loadImage("resources/Island2.png"),
-//                800,
-//                400);
-//        base.GameObjectManager.instance.add(floatingIsland);
-//        this.floatingIsland = new game.island.FloatingIsland(new base.Vector2D(2100,600),
-//                this.loadImage("resources/Island3.png"),
-//                1200,
-//                400);
-//        base.GameObjectManager.instance.add(floatingIsland);
-//        this.floatingIsland = new game.island.FloatingIsland(new base.Vector2D(3500,600),
-//                this.loadImage("resources/Island4.png"),
-//                1200,
-//                400);
-//        base.GameObjectManager.instance.add(floatingIsland);
     }
 
     @Override
@@ -73,21 +49,14 @@ public class GameCanvas extends JPanel {
     }
 
     public void runAll() {
-//        if(physic.OnIsland.checkOnIsland(player,floatingIsland)){
-//            //player.onIsland = true;
-//            player.isFalling = false;
-//        }
-
-
-//        this.floatingIsland.run();
         GameObjectManager.instance.runAll();
         this.player.run();
         this.flyingEnemy.run();
+        SceneManager.instance.performChangeSceneIfNeeded();
     }
 
     public void renderAll() {
         this.background.render(graphics);
-        //this.floatingIsland.render(graphics);
         GameObjectManager.instance.renderAll(graphics);
         this.player.render(graphics);
         this.flyingEnemy.render(graphics);

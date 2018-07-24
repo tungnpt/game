@@ -3,6 +3,7 @@ package game.enemy;
 import base.GameObject;
 import base.LoadImage;
 import base.Vector2D;
+import gameplay.GameCanvas;
 import input.KeyboardInput;
 import physic.BoxCollider;
 
@@ -14,13 +15,10 @@ import java.io.IOException;
 
 public class Enemy extends GameObject {
     public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
-    public boolean onIsland = false;
     public boolean isFalling = true;
     public BoxCollider boxCollider;
-    public boolean isAlive =true;
 
     float gravity = 0.5f;
-    //float friction = 0.99f;
 
     public Enemy() {
         super();
@@ -40,11 +38,8 @@ public class Enemy extends GameObject {
 
     public void run() {
         if (KeyboardInput.instance.isSpace) {
-            //this.position.subtractBy(this.velocity);
             this.position.x -= this.velocity.x;
         }
-
-
         if (isFalling == false) {
             this.velocity.y = -this.velocity.y;
             isFalling = true;
@@ -53,6 +48,9 @@ public class Enemy extends GameObject {
         }
         this.position.y += this.velocity.y;
         this.boxCollider.position.set(this.position);
+        if (this.isAlive && this.boxCollider.checkCollision(GameCanvas.player.boxCollider)){
+            GameCanvas.player.isAlive= false;
+        }
     }
 
     public void render(Graphics graphics) {

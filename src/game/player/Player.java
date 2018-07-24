@@ -1,9 +1,6 @@
 package game.player;
 
-import base.FrameCounter;
-import base.GameObject;
-import base.GameObjectManager;
-import base.Vector2D;
+import base.*;
 import game.island.FloatingIsland;
 import input.KeyboardInput;
 import physic.BoxCollider;
@@ -14,17 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends GameObject {
-    public BufferedImage image;
+    public BufferedImage image = LoadImage.loadImage("resources/player.png");
     public boolean isFalling = true;
     public List<BulletPlayer> bulletPlayers = new ArrayList<>();
-    Sword sword = new Sword();
+    public Sword sword = new Sword();
+    public SpecialSkill specialSkill = new SpecialSkill();
 
     boolean equippedSword = true;
     boolean equippedGun = false;
-
-    public boolean isAlive = true;
-
-    private int currentBullet = 0;
 
     public int distance = 0;
     public int point = 0;
@@ -36,56 +30,29 @@ public class Player extends GameObject {
 
     public Player() {
         super();
-    }
-
-    public Player(Vector2D position, BufferedImage image) {
-        this.position.set(position);
-        this.image = image;
+        this.position.set(new Vector2D(300, 400));
         this.velocity = new Vector2D(5f, 5f);
         this.width = 81;
         this.height = 88;
+        this.attributes.add(new PlayerMove());
+        this.attributes.add(new PlayerAttack());
         this.boxCollider = new BoxCollider(this.width, this.height);
     }
 
     public void run() {
-        if (KeyboardInput.instance.isNum1){
-            this.equippedSword = true;
-            this.equippedGun = false;
-        }
-        if (KeyboardInput.instance.isNum2){
-            this.equippedGun = true;
-            this.equippedSword = false;
-        }
-        this.sword.position.set(new Vector2D(this.position.x + 60, this.position.y));
-        if (KeyboardInput.instance.isSpace) {
-            this.distance += 25;
-            this.point = this.distance / 400;
-            //System.out.println(this.point);
+        super.run();
 
-            if (this.equippedGun) {
-                if (frameCounter.run()) {
-                    this.addBullet();
-                    this.frameCounter.reset();
-                }
-            }
-            if (this.equippedSword) {
-                this.sword.run();
-            }
-        }
-        for (int i = 0; i < this.bulletPlayers.size(); i++) {
-            this.bulletPlayers.get(i).run();
-            if (bulletPlayers.get(i).position.x >= 1920) {
-                bulletPlayers.get(i).isAlive = false;
-            }
-            System.out.println(this.bulletPlayers.size());
-        }
-        this.enemyHitPlayer();
-        this.movingUpDonw();
+        //Cần Edit lại cho đỡ bá
+        //System.out.println(this.bulletPlayers.size());
+        this.specialSkill.boxCollider.position.set(this.specialSkill.position);
         this.boxCollider.position.set(this.position);
     }
 
     public void render(Graphics graphics) {
         if (this.isAlive) {
+            if (KeyboardInput.instance.isEnter){
+                this.specialSkill.render(graphics);
+            }
             for (int i = 0; i < this.bulletPlayers.size(); i++) {
                 this.bulletPlayers.get(i).render(graphics);
             }
@@ -94,6 +61,7 @@ public class Player extends GameObject {
             }
             graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
         }
+
     }
 
     public void addBullet() {

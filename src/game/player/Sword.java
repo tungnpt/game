@@ -15,10 +15,7 @@ import java.io.IOException;
 public class Sword extends GameObject {
     public BufferedImage[] image = new BufferedImage[13];
     public BoxCollider boxCollider;
-
     public Animation animation;
-
-    FrameCounter frameCounter = new FrameCounter(10);
 
     int offset =0;
 

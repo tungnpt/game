@@ -15,7 +15,6 @@ import java.io.IOException;
 public class BulletPlayer extends GameObject {
     public BufferedImage image = LoadImage.loadImage("resources/player.png");
     public BoxCollider boxCollider;
-    public boolean isAlive = true;
 
     public BulletPlayer(){
         this.position= new Vector2D();

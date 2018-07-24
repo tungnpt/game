@@ -540,6 +540,10 @@ public class Animation {
         //g.drawImage(currentImg, (int)x - offset, (int)y, null);
         g.drawImage(currentImg, (int) x, (int) y + offset, null);
     }
+    public void drawAnimation(Graphics g, double x, double y, int width, int height, int offset) {
+        //g.drawImage(currentImg, (int)x - offset, (int)y, null);
+        g.drawImage(currentImg, (int) x, (int) y + offset, width, height, null);
+    }
 
     public void setCount(int count) {
         this.count = count;

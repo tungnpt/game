@@ -10,6 +10,7 @@ public class KeyboardInput implements KeyListener {
     public boolean isSpace = false;
     public boolean isNum1 = false;
     public boolean isNum2 = false;
+    public boolean isEnter = false;
 
     private KeyboardInput() {
 
@@ -33,12 +34,18 @@ public class KeyboardInput implements KeyListener {
             this.isNum2 = true;
             this.isNum1 = false;
         }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.isEnter = true;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             this.isSpace = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.isEnter = false;
         }
     }
 }
