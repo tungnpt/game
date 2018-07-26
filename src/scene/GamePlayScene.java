@@ -17,10 +17,14 @@ public class GamePlayScene implements Scene {
 
     @Override
     public void deinit() {
-        GameObjectManager.instance.list.clear();
+        GameObjectManager.instance.reset();
+        GameCanvas.background=  null;
+        GameCanvas.player = null;
+        GameCanvas.flyingEnemy = null;
     }
 
     private void setupCharacter() {
+        //GameObjectManager.instance.reset();
         GameCanvas.background = new Background();
         GameCanvas.player = new Player();
         GameCanvas.flyingEnemy = new FlyingEnemy();

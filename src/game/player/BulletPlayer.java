@@ -4,6 +4,7 @@ import base.GameObject;
 import base.GameObjectManager;
 import base.LoadImage;
 import base.Vector2D;
+import gameplay.GameCanvas;
 import physic.BoxCollider;
 
 import javax.imageio.ImageIO;
@@ -38,6 +39,7 @@ public class BulletPlayer extends GameObject {
                 if (this.isAlive == true && GameObjectManager.instance.list.get(j).enemies.get(k).isAlive== true &&this.boxCollider.checkCollision(GameObjectManager.instance.list.get(j).enemies.get(k).boxCollider)){
                     this.isAlive = false;
                     GameObjectManager.instance.list.get(j).enemies.get(k).isAlive = false;
+                    GameCanvas.player.energy +=1;
                 }
             }
         }

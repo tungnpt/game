@@ -10,6 +10,7 @@ import game.player.Player;
 import game.player.SpecialSkill;
 import game.player.Sword;
 import scene.GamePlayScene;
+import scene.GameStartScene;
 import scene.SceneManager;
 
 import javax.imageio.ImageIO;
@@ -35,7 +36,7 @@ public class GameCanvas extends JPanel {
 
         this.setVisible(true);
 
-        SceneManager.instance.changeScene(new GamePlayScene());
+        SceneManager.instance.changeScene(new GameStartScene());
     }
 
     private void setupBackBuffered() {
@@ -49,17 +50,21 @@ public class GameCanvas extends JPanel {
     }
 
     public void runAll() {
-        GameObjectManager.instance.runAll();
-        this.player.run();
-        this.flyingEnemy.run();
+        if (SceneManager.instance.getCurrentScene() instanceof GamePlayScene) {
+            GameObjectManager.instance.runAll();
+            this.player.run();
+            this.flyingEnemy.run();
+        }
         SceneManager.instance.performChangeSceneIfNeeded();
     }
 
     public void renderAll() {
         this.background.render(graphics);
-        GameObjectManager.instance.renderAll(graphics);
-        this.player.render(graphics);
-        this.flyingEnemy.render(graphics);
+        if (SceneManager.instance.getCurrentScene() instanceof GamePlayScene) {
+            GameObjectManager.instance.renderAll(graphics);
+            this.player.render(graphics);
+            this.flyingEnemy.render(graphics);
+        }
         this.repaint();
     }
 }

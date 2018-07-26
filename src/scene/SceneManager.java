@@ -27,5 +27,7 @@ public class SceneManager {
         }
 
     }
-
+    public Scene getCurrentScene(){
+        return this.currentScene;
+    }
 }

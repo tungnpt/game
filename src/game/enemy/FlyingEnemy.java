@@ -16,9 +16,10 @@ public class FlyingEnemy extends GameObject {
     public BoxCollider boxCollider;
     public List<WeaponEnemy> weaponEnemies = new ArrayList<>();
 
-    FrameCounter frameCounter = new FrameCounter(110);
-    FrameCounter timeDelayShoot = new FrameCounter(20);
-    FrameCounter timeDelayDrop = new FrameCounter(4);
+    FrameCounter frameCounter = new FrameCounter(250);
+    FrameCounter timeDelayShoot = new FrameCounter(30);
+    FrameCounter timeDelayDrop = new FrameCounter(10);
+    FrameCounter timeComeBack = new FrameCounter(3000);
     Random random = new Random();
 
     public FlyingEnemy() {
@@ -31,37 +32,41 @@ public class FlyingEnemy extends GameObject {
     }
 
     public void run() {
-//        if(frameCounter.run()){
-//            WeaponEnemy bullet = new WeaponEnemy();
-//            bullet.position.set(this.position.x + this.width/2, this.position.y+ this.height);
-//            bulletFlyingEnemies.add(bullet);
-//            frameCounter.reset();
-//        }
-
         //System.out.println(this.weaponEnemies.size());
-        if (frameCounter.run()) {
-            this.DropBomb();
-            if (KeyboardInput.instance.isSpace) {
-                this.position.x -= 25;
+        if (timeComeBack.run()) {
+            if (frameCounter.run()) {
+                this.velocity.set(new Vector2D(-12f, 0));
+                this.DropBomb();
+                if (KeyboardInput.instance.isSpace) {
+                    this.position.x -= 25;
+                }
+                this.position.addUp(this.velocity);
+            } else {
+                this.velocity.set(new Vector2D(-1f, 0));
+                this.shootBullet();
+                this.position.addUp(this.velocity);
             }
-            this.position.addUp(this.velocity);
-        } else {
-            this.shootBullet();
+            this.boxCollider.position.set(this.position);
+            if (this.position.x + this.width <=0){
+                this.timeComeBack.reset();
+                this.setupAgian();
+            }
         }
-
-        this.boxCollider.position.set(this.position);
         this.weaponEnemies.forEach(bulletFlyingEnemy -> bulletFlyingEnemy.run());
+    }
+
+    public void setupAgian(){
+        this.position.set(new Vector2D(1920, 10));
+        this.weaponEnemies.clear();
+        this.frameCounter.reset();
+        this.timeDelayDrop.reset();
+        this.timeDelayDrop.reset();
     }
 
     public void shootBullet() {
         if (this.timeDelayShoot.run()) {
             BulletEnemy bulletEnemy = new BulletEnemy();
-            bulletEnemy.position.set(this.position);
-//            Vector2D velo = GameCanvas.player.position
-//                    .subtract(this.position)
-//                    .normalize()
-//                    .multiply(15f);
-//            bulletEnemy.velocity.set(velo);
+            bulletEnemy.position.set(this.position.x + this.width/2, this.position.y + this.height);
             this.weaponEnemies.add(bulletEnemy);
             this.timeDelayShoot.reset();
         }
@@ -70,7 +75,7 @@ public class FlyingEnemy extends GameObject {
     public void DropBomb() {
         if (this.timeDelayDrop.run()) {
             BombEnemy bombEnemy = new BombEnemy();
-            bombEnemy.position.set(this.position);
+            bombEnemy.position.set(this.position.x + this.width/2, this.position.y + this.height);
             this.weaponEnemies.add(bombEnemy);
             this.timeDelayDrop.reset();
         }

@@ -41,7 +41,7 @@ public class WeaponEnemy extends GameObject {
         if (this.position.y >1200 || (this.boxCollider.checkCollision(GameCanvas.player.specialSkill.boxCollider) && GameCanvas.player.specialSkill.isAlive)){
             this.isAlive = false;
         }
-        if (this.boxCollider.checkCollision(GameCanvas.player.boxCollider)){
+        if (this.isAlive && this.boxCollider.checkCollision(GameCanvas.player.boxCollider)){
             GameCanvas.player.isAlive = false;
         }
     }

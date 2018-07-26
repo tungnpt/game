@@ -51,6 +51,9 @@ public class Enemy extends GameObject {
         if (this.isAlive && this.boxCollider.checkCollision(GameCanvas.player.boxCollider)){
             GameCanvas.player.isAlive= false;
         }
+        if(this.boxCollider.checkCollision(GameCanvas.player.specialSkill.boxCollider) && GameCanvas.player.specialSkill.isAlive){
+            this.isAlive = false;
+        }
     }
 
     public void render(Graphics graphics) {

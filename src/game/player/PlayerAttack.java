@@ -9,6 +9,9 @@ public class PlayerAttack implements GameObjectAttributes<Player> {
     public void run(Player gameObject) {
         gameObject.sword.position.set(new Vector2D(gameObject.position.x + 60, gameObject.position.y));
         gameObject.specialSkill.position.set(gameObject.position.x-240, gameObject.position.y-470);
+        if (gameObject.energy >30){
+            gameObject.energy =30;
+        }
         if (KeyboardInput.instance.isNum1){
             gameObject.equippedSword = true;
             gameObject.equippedGun = false;
@@ -17,7 +20,9 @@ public class PlayerAttack implements GameObjectAttributes<Player> {
             gameObject.equippedGun = true;
             gameObject.equippedSword = false;
         }
-        gameObject.specialSkill.run();
+        if (gameObject.energy == 30) {
+            gameObject.specialSkill.run();
+        }
         if (KeyboardInput.instance.isSpace) {
             gameObject.distance += 25;
             gameObject.point = gameObject.distance / 400;

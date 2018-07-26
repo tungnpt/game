@@ -24,5 +24,8 @@ public class PlayerMove implements GameObjectAttributes<Player> {
             gameObject.velocity.y += gameObject.gravity;
         }
         gameObject.position.y += gameObject.velocity.y;
+        if (gameObject.position.y >=1200){
+            gameObject.isAlive = false;
+        }
     }
 }

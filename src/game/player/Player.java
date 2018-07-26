@@ -4,6 +4,8 @@ import base.*;
 import game.island.FloatingIsland;
 import input.KeyboardInput;
 import physic.BoxCollider;
+import scene.GameOverScene;
+import scene.SceneManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,6 +18,9 @@ public class Player extends GameObject {
     public List<BulletPlayer> bulletPlayers = new ArrayList<>();
     public Sword sword = new Sword();
     public SpecialSkill specialSkill = new SpecialSkill();
+    public BufferedImage skillImage = LoadImage.loadImage("resources/energy/energy0.png");
+
+    public int energy = 0;
 
     boolean equippedSword = true;
     boolean equippedGun = false;
@@ -41,16 +46,18 @@ public class Player extends GameObject {
 
     public void run() {
         super.run();
-
         //Cần Edit lại cho đỡ bá
         //System.out.println(this.bulletPlayers.size());
         this.specialSkill.boxCollider.position.set(this.specialSkill.position);
         this.boxCollider.position.set(this.position);
+        if (!this.isAlive){
+            SceneManager.instance.changeScene(new GameOverScene());
+        }
     }
 
     public void render(Graphics graphics) {
         if (this.isAlive) {
-            if (KeyboardInput.instance.isEnter){
+            if (KeyboardInput.instance.isEnter) {
                 this.specialSkill.render(graphics);
             }
             for (int i = 0; i < this.bulletPlayers.size(); i++) {
@@ -61,7 +68,8 @@ public class Player extends GameObject {
             }
             graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
         }
-
+        this.skillImage = LoadImage.loadImage("resources/energy/energy" + Integer.toString(this.energy/10) + ".png");
+        graphics.drawImage(this.skillImage, 0, 880, 120, 120, null);
     }
 
     public void addBullet() {
@@ -77,32 +85,4 @@ public class Player extends GameObject {
         this.bulletPlayers.add(bulletPlayer);
         return;
     }
-
-    public void enemyHitPlayer() {
-        for (int j = 0; j < GameObjectManager.instance.list.size(); j++) {
-            for (int k = 0; k < GameObjectManager.instance.list.get(j).enemies.size(); k++) {
-                if (GameObjectManager.instance.list.get(j).enemies.get(k).isAlive == true && this.boxCollider.checkCollision(GameObjectManager.instance.list.get(j).enemies.get(k).boxCollider)) {
-                    this.isAlive = false;
-                }
-            }
-        }
-    }
-
-    public void movingUpDonw() {
-        for (int i = 0; i < GameObjectManager.instance.list.size(); i++) {
-            if (this.boxCollider.checkCollision(((FloatingIsland) GameObjectManager.instance.list.get(i)).boxCollider)) {
-                this.isFalling = false;
-            }
-        }
-        if (!isFalling) {
-            this.velocity.y = 15.5f;
-            this.velocity.y = -this.velocity.y;
-            isFalling = true;
-        } else {
-            this.velocity.y += gravity;
-        }
-        this.position.y += this.velocity.y;
-    }
-
-
 }

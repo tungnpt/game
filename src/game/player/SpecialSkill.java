@@ -4,6 +4,7 @@ import animation.Animation;
 import base.GameObject;
 import base.LoadImage;
 import base.Vector2D;
+import gameplay.GameCanvas;
 import input.KeyboardInput;
 import physic.BoxCollider;
 
@@ -38,6 +39,7 @@ public class SpecialSkill extends GameObject {
             super.run();
             this.isAlive = true;
             animation.runAnimation();
+            GameCanvas.player.energy = 0;
             //this.boxCollider.position.set(this.position.x +120, this.position.y + 230);
         }
         this.boxCollider.position.set(this.position.x, this.position.y);

@@ -9,7 +9,7 @@ public class BulletEnemy extends WeaponEnemy{
         Vector2D velo = GameCanvas.player.position
                 .subtract(GameCanvas.flyingEnemy.position)
                 .normalize()
-                .multiply(15f);
+                .multiply(10f);
         this.velocity.set(velo);
     }
     public void run(){
