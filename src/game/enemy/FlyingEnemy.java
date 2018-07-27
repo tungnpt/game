@@ -4,6 +4,7 @@ import base.*;
 import gameplay.GameCanvas;
 import input.KeyboardInput;
 import physic.BoxCollider;
+import renderer.ImageRenderer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,14 +13,13 @@ import java.util.List;
 import java.util.Random;
 
 public class FlyingEnemy extends GameObject {
-    public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
     public BoxCollider boxCollider;
     public List<WeaponEnemy> weaponEnemies = new ArrayList<>();
 
     FrameCounter frameCounter = new FrameCounter(250);
     FrameCounter timeDelayShoot = new FrameCounter(30);
     FrameCounter timeDelayDrop = new FrameCounter(10);
-    FrameCounter timeComeBack = new FrameCounter(3000);
+    FrameCounter timeComeBack = new FrameCounter(2500);
     Random random = new Random();
 
     public FlyingEnemy() {
@@ -28,31 +28,13 @@ public class FlyingEnemy extends GameObject {
         this.velocity = new Vector2D(-12f, 0);
         this.width = 81;
         this.height = 88;
+        this.renderer = new ImageRenderer("resources/enemy.png", this.width, this.height);
+        this.attributes.add(new FlyingEnemyAttack());
         this.boxCollider = new BoxCollider(this.width, this.height);
     }
 
     public void run() {
-        //System.out.println(this.weaponEnemies.size());
-        if (timeComeBack.run()) {
-            if (frameCounter.run()) {
-                this.velocity.set(new Vector2D(-12f, 0));
-                this.DropBomb();
-                if (KeyboardInput.instance.isSpace) {
-                    this.position.x -= 25;
-                }
-                this.position.addUp(this.velocity);
-            } else {
-                this.velocity.set(new Vector2D(-1f, 0));
-                this.shootBullet();
-                this.position.addUp(this.velocity);
-            }
-            this.boxCollider.position.set(this.position);
-            if (this.position.x + this.width <=0){
-                this.timeComeBack.reset();
-                this.setupAgian();
-            }
-        }
-        this.weaponEnemies.forEach(bulletFlyingEnemy -> bulletFlyingEnemy.run());
+        super.run();
     }
 
     public void setupAgian(){
@@ -83,7 +65,7 @@ public class FlyingEnemy extends GameObject {
 
 
     public void render(Graphics graphics) {
-        graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
+        super.render(graphics);
         this.weaponEnemies.forEach(bulletFlyingEnemy -> bulletFlyingEnemy.render(graphics));
     }
 }

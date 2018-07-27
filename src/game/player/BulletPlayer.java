@@ -6,6 +6,7 @@ import base.LoadImage;
 import base.Vector2D;
 import gameplay.GameCanvas;
 import physic.BoxCollider;
+import renderer.ImageRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class BulletPlayer extends GameObject {
-    public BufferedImage image = LoadImage.loadImage("resources/player.png");
     public BoxCollider boxCollider;
 
     public BulletPlayer(){
@@ -22,6 +22,7 @@ public class BulletPlayer extends GameObject {
         this.velocity= new Vector2D(25,0f);
         this.width = 10;
         this.height = 15;
+        this.renderer = new ImageRenderer("resources/player.png", this.width, this.height);
         this.boxCollider = new BoxCollider(this.width, this.height);
     }
 
@@ -47,7 +48,7 @@ public class BulletPlayer extends GameObject {
 
     public void render(Graphics graphics) {
         if (this.isAlive) {
-            graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
+            super.render(graphics);
         }
     }
 }

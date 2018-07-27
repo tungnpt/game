@@ -1,6 +1,8 @@
 package game.backgound;
 
+import base.GameObject;
 import base.LoadImage;
+import renderer.ImageRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,14 +10,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Background {
+public class Background extends GameObject {
     public BufferedImage image = LoadImage.loadImage("resources/background.jpg");
 
-    public Background(BufferedImage image) {
-        this.image = image;
-    }
-
     public Background() {
+        this.renderer = new ImageRenderer("resources/background.jpg", 1920, 1200);
     }
 
     public void render(Graphics graphics) {

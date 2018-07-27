@@ -7,6 +7,7 @@ import base.Vector2D;
 import gameplay.GameCanvas;
 import input.KeyboardInput;
 import physic.BoxCollider;
+import renderer.ImageRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,13 +16,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class WeaponEnemy extends GameObject {
-    public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
+    //public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
     public BoxCollider boxCollider;
     public WeaponEnemy(){
         this.position= new Vector2D();
         this.velocity= new Vector2D();
         this.width = 10;
         this.height = 15;
+        this.renderer = new ImageRenderer("resources/enemy.png", this.width, this.height);
         this.boxCollider = new BoxCollider(this.width, this.height);
     }
 
@@ -48,7 +50,8 @@ public class WeaponEnemy extends GameObject {
 
     public void render(Graphics graphics) {
         if (this.isAlive) {
-            graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
+            //graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
+            super.render(graphics);
         }
     }
 }

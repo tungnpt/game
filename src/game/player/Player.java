@@ -4,6 +4,9 @@ import base.*;
 import game.island.FloatingIsland;
 import input.KeyboardInput;
 import physic.BoxCollider;
+import renderer.ImageRenderer;
+import renderer.Renderer;
+import renderer.TextRenderer;
 import scene.GameOverScene;
 import scene.SceneManager;
 
@@ -13,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends GameObject {
-    public BufferedImage image = LoadImage.loadImage("resources/player.png");
     public boolean isFalling = true;
     public List<BulletPlayer> bulletPlayers = new ArrayList<>();
     public Sword sword = new Sword();
@@ -27,6 +29,7 @@ public class Player extends GameObject {
 
     public int distance = 0;
     public int point = 0;
+    public Renderer textRenderer;
 
     public BoxCollider boxCollider;
     public FrameCounter frameCounter = new FrameCounter(7);
@@ -39,6 +42,7 @@ public class Player extends GameObject {
         this.velocity = new Vector2D(5f, 5f);
         this.width = 81;
         this.height = 88;
+        this.renderer = new ImageRenderer("resources/player.png", this.width,this.height);
         this.attributes.add(new PlayerMove());
         this.attributes.add(new PlayerAttack());
         this.boxCollider = new BoxCollider(this.width, this.height);
@@ -46,8 +50,6 @@ public class Player extends GameObject {
 
     public void run() {
         super.run();
-        //Cần Edit lại cho đỡ bá
-        //System.out.println(this.bulletPlayers.size());
         this.specialSkill.boxCollider.position.set(this.specialSkill.position);
         this.boxCollider.position.set(this.position);
         if (!this.isAlive){
@@ -56,6 +58,12 @@ public class Player extends GameObject {
     }
 
     public void render(Graphics graphics) {
+        this.textRenderer = new TextRenderer(
+                Integer.toString(this.point),
+                Color.RED,
+                "Arial",
+                30
+        );
         if (this.isAlive) {
             if (KeyboardInput.instance.isEnter) {
                 this.specialSkill.render(graphics);
@@ -66,23 +74,10 @@ public class Player extends GameObject {
             if (equippedSword) {
                 this.sword.render(graphics);
             }
-            graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
+            super.render(graphics);
         }
         this.skillImage = LoadImage.loadImage("resources/energy/energy" + Integer.toString(this.energy/10) + ".png");
         graphics.drawImage(this.skillImage, 0, 880, 120, 120, null);
-    }
-
-    public void addBullet() {
-        for (int i = 0; i < bulletPlayers.size(); i++) {
-            if (bulletPlayers.get(i).isAlive == false) {
-                bulletPlayers.get(i).isAlive = true;
-                bulletPlayers.get(i).position.set(this.position);
-                return;
-            }
-        }
-        BulletPlayer bulletPlayer = new BulletPlayer();
-        bulletPlayer.position.set(this.position);
-        this.bulletPlayers.add(bulletPlayer);
-        return;
+        textRenderer.render(graphics, new Vector2D(960, 100));
     }
 }

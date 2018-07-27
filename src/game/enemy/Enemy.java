@@ -6,6 +6,7 @@ import base.Vector2D;
 import gameplay.GameCanvas;
 import input.KeyboardInput;
 import physic.BoxCollider;
+import renderer.ImageRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Enemy extends GameObject {
-    public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
+    //public BufferedImage image = LoadImage.loadImage("resources/enemy.png");
     public boolean isFalling = true;
     public BoxCollider boxCollider;
 
@@ -25,14 +26,15 @@ public class Enemy extends GameObject {
         this.velocity = new Vector2D(25f, 5f);
         this.width = 80;
         this.height = 60;
+        this.renderer = new ImageRenderer("resources/enemy.png", this.width, this.height);
     }
 
     public Enemy(Vector2D position) {
         this.position.set(position);
-        //this.image = image;
         this.velocity = new Vector2D(25f, 5f);
         this.width = 81;
         this.height = 88;
+        this.renderer = new ImageRenderer("resources/enemy.png", this.width, this.height);
         this.boxCollider = new BoxCollider(this.width, this.height);
     }
 
@@ -51,14 +53,14 @@ public class Enemy extends GameObject {
         if (this.isAlive && this.boxCollider.checkCollision(GameCanvas.player.boxCollider)){
             GameCanvas.player.isAlive= false;
         }
-        if(this.boxCollider.checkCollision(GameCanvas.player.specialSkill.boxCollider) && GameCanvas.player.specialSkill.isAlive){
+        if(this.boxCollider.checkCollision(GameCanvas.player.specialSkill.boxCollider) && GameCanvas.player.specialSkill.isAlive == true){
             this.isAlive = false;
         }
     }
 
     public void render(Graphics graphics) {
         if (this.isAlive) {
-            graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, (int) this.width, (int) this.height, null);
+            super.render(graphics);
         }
     }
 }

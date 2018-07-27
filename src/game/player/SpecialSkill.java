@@ -40,7 +40,6 @@ public class SpecialSkill extends GameObject {
             this.isAlive = true;
             animation.runAnimation();
             GameCanvas.player.energy = 0;
-            //this.boxCollider.position.set(this.position.x +120, this.position.y + 230);
         }
         this.boxCollider.position.set(this.position.x, this.position.y);
         if (!KeyboardInput.instance.isEnter) {

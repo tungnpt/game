@@ -7,7 +7,7 @@ import input.KeyboardInput;
 public class PlayerAttack implements GameObjectAttributes<Player> {
     @Override
     public void run(Player gameObject) {
-        gameObject.sword.position.set(new Vector2D(gameObject.position.x + 60, gameObject.position.y));
+        gameObject.sword.position.set(gameObject.position.x + 60, gameObject.position.y);
         gameObject.specialSkill.position.set(gameObject.position.x-240, gameObject.position.y-470);
         if (gameObject.energy >30){
             gameObject.energy =30;
@@ -26,11 +26,10 @@ public class PlayerAttack implements GameObjectAttributes<Player> {
         if (KeyboardInput.instance.isSpace) {
             gameObject.distance += 25;
             gameObject.point = gameObject.distance / 400;
-            //System.out.println(this.point);
 
             if (gameObject.equippedGun) {
                 if (gameObject.frameCounter.run()) {
-                    gameObject.addBullet();
+                    this.addBullet(gameObject);
                     gameObject.frameCounter.reset();
                 }
             }
@@ -43,7 +42,19 @@ public class PlayerAttack implements GameObjectAttributes<Player> {
             if (gameObject.bulletPlayers.get(i).position.x >= 1920) {
                 gameObject.bulletPlayers.get(i).isAlive = false;
             }
-            //System.out.println(this.bulletPlayers.size());
         }
+    }
+    public void addBullet(Player gameObject) {
+        for (int i = 0; i < gameObject.bulletPlayers.size(); i++) {
+            if (gameObject.bulletPlayers.get(i).isAlive == false) {
+                gameObject.bulletPlayers.get(i).isAlive = true;
+                gameObject.bulletPlayers.get(i).position.set(gameObject.position.x + gameObject.width, gameObject.position.y + gameObject.height/2);
+                return;
+            }
+        }
+        BulletPlayer bulletPlayer = new BulletPlayer();
+        bulletPlayer.position.set(gameObject.position);
+        gameObject.bulletPlayers.add(bulletPlayer);
+        return;
     }
 }

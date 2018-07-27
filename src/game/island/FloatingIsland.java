@@ -75,7 +75,6 @@ public class FloatingIsland extends GameObject {
             enemyQuantity = random.nextInt(9);
         }
         int amountDistance = 80*(enemyQuantity + enemyQuantity -1);
-        //enemies.add(new game.enemy.Enemy(new base.Vector2D(this.position.x + this.width/2 - amountDistance/2, this.position.y - random.nextInt(100) - 100)));
         for (int i=0;  i<=enemyQuantity-1; i++){
             enemies.add(new Enemy(new Vector2D((float) (this.position.x + this.width/2 - amountDistance/2 + 80 * 2 * i),this.position.y - random.nextInt(50) - 150)));
         }

@@ -28,8 +28,8 @@ public class Sword extends GameObject {
             this.image[i - 1] = LoadImage.loadImage(stringPath);
         }
         this.velocity = new Vector2D();
-        this.width = 68;
-        this.height = 48;
+        this.width = 81;
+        this.height = 88;
 
         this.boxCollider = new BoxCollider(this.width, this.height);
 
@@ -37,12 +37,10 @@ public class Sword extends GameObject {
     }
 
     public void run() {
-        //if (KeyboardInput.instance.isSpace) {
         super.run();
         animation.runAnimation();
         this.boxCollider.position.set(this.position.x, this.position.y);
         this.hitEnemy();
-        //}
     }
 
     public void render(Graphics graphics) {
@@ -88,7 +86,7 @@ public class Sword extends GameObject {
     public void hitEnemy() {
         for (int i = 0; i < GameObjectManager.instance.list.size(); i++) {
             for (int j = 0; j < GameObjectManager.instance.list.get(i).enemies.size(); j++) {
-                if (this.boxCollider.checkCollision(GameObjectManager.instance.list.get(i).enemies.get(j).boxCollider)) {
+                if (this.boxCollider.checkCollision(GameObjectManager.instance.list.get(i).enemies.get(j).boxCollider) && GameObjectManager.instance.list.get(i).enemies.get(j).isAlive) {
                     GameObjectManager.instance.list.get(i).enemies.get(j).isAlive = false;
                     GameCanvas.player.energy +=1;
                 }

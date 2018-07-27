@@ -1,6 +1,7 @@
 package base;
 
 import action.Action;
+import renderer.Renderer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class GameObject {
     public int width;
     public int height;
     public boolean isAlive = true;
+    public Renderer renderer;
     public List<GameObjectAttributes> attributes;
     private List<Action> actions;
 
@@ -27,7 +29,9 @@ public class GameObject {
     }
 
     public void render(Graphics graphics) {
-
+        if (this.renderer != null) {
+            this.renderer.render(graphics, this.position);
+        }
     }
 
     public void addAction(Action action) {
