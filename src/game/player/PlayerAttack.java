@@ -3,14 +3,19 @@ package game.player;
 import base.GameObjectAttributes;
 import base.Vector2D;
 import input.KeyboardInput;
+import utils.Utils;
+
+import javax.sound.sampled.Clip;
 
 public class PlayerAttack implements GameObjectAttributes<Player> {
+    public int count =7;
+    private Clip punchSound = Utils.loadAudio("resources/audio/shoot.wav");
     @Override
     public void run(Player gameObject) {
         gameObject.sword.position.set(gameObject.position.x + 60, gameObject.position.y);
         gameObject.specialSkill.position.set(gameObject.position.x-240, gameObject.position.y-470);
-        if (gameObject.energy >30){
-            gameObject.energy =30;
+        if (gameObject.energy >3){
+            gameObject.energy =3;
         }
         if (KeyboardInput.instance.isNum1){
             gameObject.equippedSword = true;
@@ -20,21 +25,36 @@ public class PlayerAttack implements GameObjectAttributes<Player> {
             gameObject.equippedGun = true;
             gameObject.equippedSword = false;
         }
-        if (gameObject.energy == 30) {
+        if (KeyboardInput.instance.isEnter) {
             gameObject.specialSkill.run();
+        }
+        else {
+            gameObject.specialSkill.isAlive =  false;
         }
         if (KeyboardInput.instance.isSpace) {
             gameObject.distance += 25;
             gameObject.point = gameObject.distance / 400;
 
+//            if (gameObject.equippedGun) {
+//                if (gameObject.frameCounter.run()) {
+//                    this.addBullet(gameObject);
+//                    gameObject.frameCounter.reset();
+//                }
+//            }
             if (gameObject.equippedGun) {
-                if (gameObject.frameCounter.run()) {
+                if (this.count == 7){
                     this.addBullet(gameObject);
-                    gameObject.frameCounter.reset();
+                    this.count = 0;
                 }
+                this.count += 1;
+            }
+            else {
+                this.count = 7;
             }
             if (gameObject.equippedSword) {
                 gameObject.sword.run();
+                this.punchSound.loop(1);
+                this.punchSound.start();
             }
         }
         for (int i = 0; i < gameObject.bulletPlayers.size(); i++) {

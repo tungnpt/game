@@ -23,17 +23,22 @@ public class Sword extends GameObject {
         super();
         this.position = new Vector2D();
         String stringPath;
-        for (int i = 1; i <= 13; i++) {
-            stringPath = "resources/sword/s" + Integer.toString(i) + ".png";
+//        for (int i = 1; i <= 13; i++) {
+//            stringPath = "resources/sword/s" + Integer.toString(i) + ".png";
+//            this.image[i - 1] = LoadImage.loadImage(stringPath);
+//        }
+        for (int i = 1; i <= 7; i++) {
+            stringPath = "resources/sword1/s" + Integer.toString(i) + ".png";
             this.image[i - 1] = LoadImage.loadImage(stringPath);
         }
         this.velocity = new Vector2D();
-        this.width = 81;
+        this.width = 88;  //81
         this.height = 88;
 
         this.boxCollider = new BoxCollider(this.width, this.height);
 
-        this.animation = new Animation(1, image[0], image[3], image[6], image[9], image[12]);
+        //this.animation = new Animation(1, image[0], image[3], image[6], image[9], image[12]);
+        this.animation = new Animation(0, image[0], image[1], image[2], image[3], image[4], image[5], image[6], image[7]);
     }
 
     public void run() {
@@ -46,7 +51,7 @@ public class Sword extends GameObject {
     public void render(Graphics graphics) {
         if (KeyboardInput.instance.isSpace) {
             this.setOffset();
-            animation.drawAnimation(graphics, this.position.x, this.position.y, offset);
+            animation.drawAnimation(graphics, this.position.x, this.position.y, this.width, this.height, 0);
         }
         if (!KeyboardInput.instance.isSpace) {
             animation.reset();

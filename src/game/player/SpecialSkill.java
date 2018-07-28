@@ -17,6 +17,8 @@ public class SpecialSkill extends GameObject {
 
     public Animation animation;
 
+    //public boolean isActived = false;
+
 
     public SpecialSkill() {
         super();
@@ -31,28 +33,26 @@ public class SpecialSkill extends GameObject {
         this.height = 560;
         this.isAlive = false;
         this.boxCollider = new BoxCollider(this.width, this.height);
-        this.animation = new Animation(1, image[0], image[1], image[2], image[3], image[4], image[5], image[5], image[5]);
+        this.animation = new Animation(2, image[0], image[1], image[2], image[3], image[4], image[5]);
     }
 
-    public void run(){
-        if (KeyboardInput.instance.isEnter) {
+    public void run() {
+        if (GameCanvas.player.energy >=3) {
             super.run();
             this.isAlive = true;
+            this.boxCollider = new BoxCollider(this.width, this.height);
+            this.isAlive = true;
             animation.runAnimation();
-            GameCanvas.player.energy = 0;
-        }
-        this.boxCollider.position.set(this.position.x, this.position.y);
-        if (!KeyboardInput.instance.isEnter) {
-            this.isAlive = false;
+            this.boxCollider.position.set(this.position.x, this.position.y);
         }
     }
 
     public void render(Graphics graphics) {
-        if (KeyboardInput.instance.isEnter) {
-            animation.drawAnimation(graphics, this.position.x, this.position.y, 560,560, 0);
+        if (GameCanvas.player.energy >=3) {
+            animation.drawAnimation(graphics, this.position.x, this.position.y, 560, 560, 0);
         }
-        if (!KeyboardInput.instance.isEnter) {
-            animation.reset();
+        if (!KeyboardInput.instance.isEnter){
+            GameCanvas.player.energy = 0;
         }
     }
 }

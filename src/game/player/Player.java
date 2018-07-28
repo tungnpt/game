@@ -50,6 +50,7 @@ public class Player extends GameObject {
 
     public void run() {
         super.run();
+        System.out.println(this.energy);
         this.specialSkill.boxCollider.position.set(this.specialSkill.position);
         this.boxCollider.position.set(this.position);
         if (!this.isAlive){
@@ -60,9 +61,9 @@ public class Player extends GameObject {
     public void render(Graphics graphics) {
         this.textRenderer = new TextRenderer(
                 Integer.toString(this.point),
-                Color.RED,
-                "Arial",
-                30
+                Color.WHITE,
+                "French Script MT",
+                60
         );
         if (this.isAlive) {
             if (KeyboardInput.instance.isEnter) {
@@ -76,7 +77,7 @@ public class Player extends GameObject {
             }
             super.render(graphics);
         }
-        this.skillImage = LoadImage.loadImage("resources/energy/energy" + Integer.toString(this.energy/10) + ".png");
+        this.skillImage = LoadImage.loadImage("resources/energy/energy" + Integer.toString(this.energy/1) + ".png");
         graphics.drawImage(this.skillImage, 0, 880, 120, 120, null);
         textRenderer.render(graphics, new Vector2D(960, 100));
     }
